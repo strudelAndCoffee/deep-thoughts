@@ -23,10 +23,15 @@ const ReactionForm = ({ thoughtId }) => {
         Character Count: {characterCount}/280
         {error && <span className="ml-2">Something went wrong...</span>}
       </p>
-      <form className="flex-row justify-center justify-space-between-md align-stretch">
+      <form
+        className="flex-row justify-center justify-space-between-md align-stretch"
+        onSubmit={handleFormSubmit}
+      >
         <textarea
           placeholder="Leave a reaction to this thought..."
           className="form-input col-12 col-md-9"
+          value={reactionBody}
+          onChange={handleChange}
         ></textarea>
 
         <button className="btn col-12 col-md-3" type="submit">
