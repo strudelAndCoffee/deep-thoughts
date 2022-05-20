@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { ADD_REACTION } from '../../utils/mutations';
 
 const ReactionForm = ({ thoughtId }) => {
     const [reactionBody, setBody] = useState('');
     const [characterCount, setCharacterCount] = useState(0);
+    const [addReaction, { error }] = useMutation(ADD_REACTION);
     
     const handleChange = event => {
       if (event.target.value.length <= 280) {
@@ -13,8 +16,17 @@ const ReactionForm = ({ thoughtId }) => {
     
     const handleFormSubmit = async event => {
       event.preventDefault();
-      setBody('');
-      setCharacterCount(0);
+      
+      try {
+        await addReaction({
+            variables: { reactionBody, thoughtId }
+        });
+    
+        setBody('');
+        setCharacterCount(0);
+      } catch (e) {
+        console.error(e);
+      }
     };
 
   return (
